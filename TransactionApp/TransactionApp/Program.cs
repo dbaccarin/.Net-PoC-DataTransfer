@@ -2,9 +2,9 @@
 using TransactionApp;
 
 
-Console.WriteLine("Running container...");
+Console.WriteLine("Running app...");
 
-MongoClientSettings settings = MongoClientSettings.FromConnectionString("mongodb://localhost:27018");
+MongoClientSettings settings = MongoClientSettings.FromConnectionString("mongodb://mongodb:27017");
 
 MongoClient client = new MongoClient(settings);
 

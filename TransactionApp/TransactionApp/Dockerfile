@@ -17,3 +17,6 @@ COPY --from=build /app/out .
 
 # Define the entry point command to run the application
 ENTRYPOINT ["dotnet", "TransactionApp.dll"]
+
+# bash
+# docker build -t transaction-app .

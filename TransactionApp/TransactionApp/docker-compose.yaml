@@ -1,0 +1,44 @@
+
+name: transaction-app-poc               # group name
+services:
+  mongodb:
+    image: mongo:latest
+    container_name: mongodb-database
+    ports:
+      - "27018:27017"               # external port : internal port
+    volumes:
+      - ./mongo-init.js:/docker-entrypoint-initdb.d/mongo-init.js:ro
+      - db-data:/data/db            # database where data will persist
+      - db-config:/data/configdb    # where MongoDB stores configuration files
+    networks:
+        - mongo-network
+
+  app:
+    build: .                           # build from the local dockerfile
+    image: transaction-app:latest      # set image name
+    container_name: transaction-app
+    ports:
+      - "8080:8080"                 # external port : internal port
+    environment:
+      ConnectionStrings__MongoDb: "" # environment variable to the app container
+    depends_on:
+      - mongodb # ensures starts first
+    networks:
+      - mongo-network
+
+volumes:
+      db-data:
+        driver: local                   # drivers - where the directory is created
+      db-config:
+        driver: local
+
+networks:
+  mongo-network:
+    driver: bridge                      # creates a private, internal network
+
+
+# bash
+# docker compose up --build -d
+
+# bash
+# docker compose down
